@@ -23,11 +23,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-groovy-templates'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.codehaus.groovy:groovy'
+	implementation 'org.codehaus.groovy:groovy:3.0.10'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
 
 tasks.named('test') {

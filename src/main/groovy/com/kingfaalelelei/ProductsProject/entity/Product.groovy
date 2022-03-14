@@ -22,8 +22,24 @@ import javax.validation.constraints.Size
 @Setter
 public class Product implements Serializable {
 
+    Product(Integer id, String name, String description, BigDecimal price,
+            String image_title, String image) {
+        this.id = id
+        this.name = name
+        this.description = description
+        this.price = price
+        this.image_title = image_title
+        this.image = image
+    }
+
+    public Product() {}
+
+    Product(Integer id) {
+        this.id = id
+    }
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    //@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id
 
     @NotBlank
@@ -34,7 +50,6 @@ public class Product implements Serializable {
     @Size(max = 255)
     private String description
 
-    @NotBlank
     private BigDecimal price
 
     @NotBlank

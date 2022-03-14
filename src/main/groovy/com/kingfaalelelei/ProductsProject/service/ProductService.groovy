@@ -38,7 +38,7 @@ public class ProductService {
     }
 
     public Product save(Product product) throws Exception {
-        if (!StringUtils.isEmpty(product.getName())) {
+        if (!org.apache.commons.lang.StringUtils.isEmpty(product.getName())) {
             if (product.getId() != null && existsById(product.getId())) {
                 throw new Exception("Product with id: " + Product.getId() +
                         " already exists");
@@ -48,6 +48,14 @@ public class ProductService {
         else {
             throw new Exception("Title cannot be null or empty");
         }
+    }
+
+    public Product saveProductFromUrl(Product product) throws Exception {
+        if (product.getId() != null && existsById(product.getId())) {
+            throw new Exception("Product with id: " + product.getId() +
+                    " already exists");
+        }
+        return productRepository.save(product)
     }
 
     public void update(Product product) throws Exception {

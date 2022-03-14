@@ -2,6 +2,9 @@ package com.kingfaalelelei.ProductsProject.controller
 
 import com.kingfaalelelei.ProductsProject.entity.Product
 import com.kingfaalelelei.ProductsProject.service.ProductService
+import groovyx.net.http.ContentType
+import groovyx.net.http.RESTClient
+import net.sf.json.groovy.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Controller
@@ -48,7 +51,10 @@ public class ProductController {
         model.addAttribute("hasNext", hasNext);
         model.addAttribute("next", pageNumber + 1);
 
-        println("Product Count: $count")
+        model.addAttribute("addProductsActionUrl",
+                "/products/addJsonData");
+
+//        println("Product Count: $count")
         return "products-list";
     }
 
@@ -97,6 +103,65 @@ public class ProductController {
             model.addAttribute("add", true);
             return "product-edit";
         }
+    }
+
+    @PostMapping(value = "/products/addJsonData")
+    public String addJsonData(Model model) {
+        //String base = 'https://hplussport.com'
+
+//        def client = new RESTClient(base)
+//
+//        def data
+//
+//        client.contentType = ContentType.JSON
+//        client.get(path: '/api/products/order/price') { response, json ->
+//            println response.status
+//            data = json
+//            println(json)
+//        }
+
+        def data = new JsonSlurper()
+                .parse('https://hplussport.com/api/products/order/price'.toURL())
+
+        List<Product> productList = data.collect {
+            new Product(it.id.toInteger(), it.name, it.description,
+                    it.price.toBigDecimal(),
+                    it.image_title, it.image)
+        }
+
+        productService.saveProductFromUrl(productList[0])
+
+//        List<Product> productList = data.collect {
+//            new Product(it.id.toInteger(), it.name, it.description, it.price.toBigDecimal(),
+//                    it.image_title, it.image)
+//        }
+
+//        try {
+//            productService.save(data[0])
+//            model.addAttribute("successMessage",
+//                    "Successfully inserted product")
+//            return "redirect:/products/";
+//        } catch (Exception ex) {
+//            String errorMessage = ex.getMessage()
+//
+//            model.addAttribute("addJsonErrorMessage", errorMessage)
+//            return "redirect:/products/";
+//        }
+
+//        for (product in productList) {
+//            try {
+//                productService.save(product)
+//            } catch (Exception ex) {
+//                String errorMessage = ex.getMessage()
+//
+//                model.addAttribute("addJsonErrorMessage", errorMessage)
+//                return "redirect:/products/";
+//            }
+//        }
+
+//        model.addAttribute("successMessage",
+//                "Successfully inserted product")
+//        return "redirect:/products/"
     }
 
     @GetMapping(value = ["/products/{productId}/edit"])
