@@ -107,18 +107,6 @@ public class ProductController {
 
     @PostMapping(value = "/products/addJsonData")
     public String addJsonData(Model model) {
-        //String base = 'https://hplussport.com'
-
-//        def client = new RESTClient(base)
-//
-//        def data
-//
-//        client.contentType = ContentType.JSON
-//        client.get(path: '/api/products/order/price') { response, json ->
-//            println response.status
-//            data = json
-//            println(json)
-//        }
 
         def data = new JsonSlurper()
                 .parse('https://hplussport.com/api/products/order/price'.toURL())
@@ -129,15 +117,10 @@ public class ProductController {
                     it.image_title, it.image)
         }
 
-        productService.saveProductFromUrl(productList[0])
-
-//        List<Product> productList = data.collect {
-//            new Product(it.id.toInteger(), it.name, it.description, it.price.toBigDecimal(),
-//                    it.image_title, it.image)
-//        }
+        // productService.saveProductFromUrl(productList[0])
 
 //        try {
-//            productService.save(data[0])
+//            productService.saveProductFromUrl(productList[2])
 //            model.addAttribute("successMessage",
 //                    "Successfully inserted product")
 //            return "redirect:/products/";
@@ -148,20 +131,21 @@ public class ProductController {
 //            return "redirect:/products/";
 //        }
 
-//        for (product in productList) {
-//            try {
-//                productService.save(product)
-//            } catch (Exception ex) {
-//                String errorMessage = ex.getMessage()
-//
-//                model.addAttribute("addJsonErrorMessage", errorMessage)
-//                return "redirect:/products/";
-//            }
-//        }
+        // Adding all products from url into database
+        for (product in productList) {
+            try {
+                productService.save(product)
+            } catch (Exception ex) {
+                String errorMessage = ex.getMessage()
 
-//        model.addAttribute("successMessage",
-//                "Successfully inserted product")
-//        return "redirect:/products/"
+                model.addAttribute("addJsonErrorMessage", errorMessage)
+                return "redirect:/products/";
+            }
+        }
+
+        model.addAttribute("successMessage",
+                "Successfully inserted product")
+        return "redirect:/products/"
     }
 
     @GetMapping(value = ["/products/{productId}/edit"])

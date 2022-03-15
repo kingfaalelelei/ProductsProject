@@ -10,13 +10,13 @@ html(lang:'en') {
         div (class: 'container') {
 
             h1("Products List")
-                    div {
-                        nobr {
-                            a(href: "/products/add", "Add Product")
-                            yield ' | '
-                            a(href: "/", "Back to Index")
-                        }
-                    }
+//                    div {
+//                        nobr {
+//                            a(href: "/products/add", "Add Product")
+//                            yield ' | '
+//                            a(href: "/", "Back to Index")
+//                        }
+//                    }
                     br()
                     br()
                      // Insert json data into database from url
@@ -29,7 +29,7 @@ html(lang:'en') {
                       }
 
                       if (successMessage != null) {
-                                div(class: "error", "$successMessage")
+                                div(class: "success", "$successMessage")
                       }
 
                       br()
@@ -41,15 +41,17 @@ html(lang:'en') {
                                 th("Name")
                                 th("Description")
                                 th("Price")
-                                th("Edit")
+//                                th("Edit")
                             }
                             products.each { product ->
                                 tr {
                                     td {
-                                        a(href:"/products/$product.id", "$product.id")
+                                        //a(href:"/products/$product.id", "$product.id")
+                                        p(product.id)
                                     }
                                     td {
-                                        a(href:"/products/$product.id", "$product.name")
+                                        //a(href:"/products/$product.id", "$product.name")
+                                        p(product.name)
                                     }
                                     td {
                                         p(product.description)
