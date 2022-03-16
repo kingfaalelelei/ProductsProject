@@ -124,8 +124,13 @@ public class TodoController {
                              @PathVariable Integer todoId,
                              @ModelAttribute("todo") Todo todo) {
         try {
-            println(todo.getCompleted())
+            //println(todo.getCompleted())
             todo.setId(todoId);
+            if (todo.getCompleted() == null) {
+                todo.setCompleted(false)
+            }else {
+                todo.setCompleted(true)
+            }
             todoService.update(todo);
             return "redirect:/todos/" + String.valueOf(todo.getId());
         } catch (Exception ex) {

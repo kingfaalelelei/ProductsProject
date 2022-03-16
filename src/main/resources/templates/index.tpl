@@ -8,11 +8,14 @@ html(lang:'en') {
     }
     body {
         div (class: 'container') {
-             h1 ("$title")
+             h1 ("Learning Spring")
+                    a(href: "/todos", "Todos List")
+                     br()
+                     br()
                     a(href: "/products", "Products List")
-                    br()
-                    br()
-                    div ("Copyright &copy; thesamoanppprogrammer.com")
+//                    br()
+//                    br()
+                    //div ("Copyright &copy; thesamoanppprogrammer.com")
         }
     }
 }
